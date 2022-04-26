@@ -1,17 +1,17 @@
 from flask import Flask, Response, render_template
-from test1 import VideoCamera
+from stressmasktest import VideoCamera
 
-app = Flask(__name__, template_folder='D:/Stress-Detector/templates')
+app = Flask(__name__, template_folder='D:/AI-Project--stress-and-mask-detection\code/templates')
 
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-def gen(test):
+def gen(stressmask):
     """Video streaming generator function."""
     while True:
-        frame= test.get_frame()
+        frame= stressmask.get_frame()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
         print(frame)
