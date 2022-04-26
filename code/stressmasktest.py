@@ -18,12 +18,12 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
 # load our serialized face detector model from disk
-prototxtPath = r"face_detector\deploy.prototxt"
-weightsPath = r"face_detector\res10_300x300_ssd_iter_140000.caffemodel"
+prototxtPath = r"models\face_detector\deploy.prototxt"
+weightsPath = r"models\face_detector\res10_300x300_ssd_iter_140000.caffemodel"
 faceNet = cv2.dnn.readNetFromCaffe(prototxtPath, weightsPath)
 
 # load the face mask detector model from disk
-maskNet = load_model("mask_detector.model", custom_objects=None,
+maskNet = load_model("models\mask_detector.model", custom_objects=None,
     compile=False)
 
 
@@ -151,9 +151,9 @@ global points, points_lip, emotion_classifier, detector, predictor
 
 #importing frontal facial landmark detector        
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
+predictor = dlib.shape_predictor("models\shape_predictor_68_face_landmarks.dat")
 #loading the trained model
-emotion_classifier = load_model("_mini_XCEPTION.102-0.66.hdf5", compile=False)
+emotion_classifier = load_model("models\_mini_XCEPTION.102-0.66.hdf5", compile=False)
     
 points=[]; points_lip=[]; points_eye=[]
     
@@ -280,7 +280,7 @@ def normalize_values_mask(points,disp, points_eye, eyedist):
     normalized_value_eye =abs(eyedist - np.min(points_eye))/abs(np.max(points_eye) - np.min(points_eye))
     normalized_value =( normalized_value_eye + normalized_value_eyebrow)/2
     stress_value = (np.exp(-(normalized_value)))
-    if stress_value>=0.65:
+    if stress_value>=0.60:
         stress_label="High Stress"
     else:
         stress_label="Low Stress"
